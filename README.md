@@ -7,7 +7,7 @@ LightSound is an Arduino-based device that converts light intensity to sound via
 ### Instructions for logging data
 Runs on Python 3.x
 
-Package requirements: datetime, sys, and [pySerial](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
+Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
 1. Ensure that the serial logger program (LightSound2_data_logger.py) is located in the folder where you will save your data
 2. Connect the LightSound 2.0 to the computer with a micro-USB B cord (must be able to transfer data)
 3. Determine the appropriate serial port of the LightSound 2.0
@@ -24,7 +24,7 @@ Package requirements: datetime, sys, and [pySerial](https://pyserial.readthedocs
 ### Instructions for plotting data
 Runs on Python 3.x
 
-Package requirements: datetime, matplotlib, numpy, sys
+Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 1. Ensure that the serial logger program (LightSound2_data_plotter.py) is located in the folder where you will save your data
 2. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_parser.py filename.txt plot_lines savename.png`
     - `filename` is the prefix of the name of the log file for the data (extension should be the same as used for the data logging)
