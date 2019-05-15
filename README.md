@@ -17,8 +17,8 @@ Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readt
 4. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_logger.py port 9600 timezone filename.txt`
     - `port` is the port name determined in Step 3
     - `9600` is the baud rate for reading the LightSound 2.0 data
-    -	`timezone` is the timezone of observations (e.g. CST, EST, ART, CLT, etc.)
-    -	`filename` is the prefix of the name of the log file for the data
+    - `timezone` is the timezone of observations (e.g. CST, EST, ART, CLT, etc.)
+    - `filename` is the prefix of the name of the log file for the data
 5. To stop data logging, press `Ctrl + C` in terminal/command line
 
 ### Instructions for plotting data
@@ -28,5 +28,7 @@ Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 1. Ensure that the serial logger program (LightSound2_data_plotter.py) is located in the folder where you will save your data
 2. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_parser.py filename.txt plot_lines savename.png`
     - `filename` is the prefix of the name of the log file for the data (extension should be the same as used for the data logging)
-    - `plot_lines` determines whether the plot will include whether the gain and integration times (0 = lux only, 1 = lux, gain, and integrations)
+    - `plot_lines` determines whether the plot will include whether the gain and integration times
+        - To plot the lux (intensity) values only, replace `plot_lines` with `0`
+        - To plot the lux, gain, and integration times, replace `plot_lines` with `1`
     - `savename` is the prefix of the image name the plot will save to; use none if you do not want to save the image (extension typically is .png)
