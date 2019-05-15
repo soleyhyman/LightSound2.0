@@ -31,7 +31,7 @@ with open(filename, 'w+') as f:
         if line.startswith('['):
             f.writelines('Time: ' + str(timeNow) + '\n')
             print('Time:', timeNow)
-            f.writelines([line]
+            f.writelines([line])
             print(line.strip('\n'))	
         else:
             f.writelines([line])
