@@ -38,7 +38,7 @@ Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 -----
 
 # LightSound2.0
-Python data logger, plotter y código Python para Arduino de dispositivos LightSound 2.0
+Python data logger, plotter y código para Arduino de dispositivos LightSound 2.0
 
 ### Acerca de LightSound
 
@@ -55,15 +55,15 @@ Requisitos del paquete: `datetime`, `sys` y [`pySerial`](https://pyserial.readth
 1. Asegúrese de que el programa de registro en serie (LightSound2_data_logger.py) esté ubicado en la carpeta donde guardará sus datos.
 2. Conecte el LightSound 2.0 a la computadora con un cable micro-USB B (debe poder transferir datos).
 3. Determine el puerto serie apropiado del LightSound 2.0. Según su sistema operativo:
-    - En Windows: escriba el `modo` en la línea de comandos, el puerto debe tener el formato `COM*`
+    - En Windows: escriba el `mode` en la línea de comandos, el puerto debe tener el formato `COM*`
     - En Mac: escriba `ls /dev/tty.*` en la terminal, el puerto debe tener el formato `/dev/tty.usbmodem*` o `/dev/tty.usbserial*`
     - En Linux: escriba `ls /dev/tty.*` en el terminal, el puerto debe tener el formato `/dev/ttyUSB*` o `/dev/ttyACM*`
 4. En la terminal (Mac/Linux) o en la línea de comandos (Windows), navegue hasta la carpeta de datos y escriba: `python LightSound2_data_logger.py port 9600 timezone filename.txt`
     - `port` es el nombre del puerto determinado en el Paso 3
     - `9600` es la velocidad en baudios para leer los datos de LightSound 2.0
     - `timezone` (ona horaria) es la zona horaria de las observaciones (por ejemplo, CST, EST, ART, CLT, etc.)
-    - `filename` es el prefijo del nombre del archivo de registro para los datos.
-5. Para detener el registro de datos, presione `Ctrl + C` en la línea de comandos / terminal
+    - `file_prefix` es el prefijo para el nombre de los archivos de datos.
+5. Para detener e registro de datos, presionar Ctrl + C en la terminal/linea de comandos. El script salvará automáticamente los datos crudos (\*\_raw.log) como un archivo .csv para su uso posterior.
 
 ### Instrucciones para graficar los datos
 Corre en Python 3.x
@@ -71,9 +71,9 @@ Corre en Python 3.x
 Requisitos del paquete: `datetime`, `matplotlib`, `numpy`, `sys`
 
 1. Asegúrese de que el programa de registro en serie (LightSound2_data_plotter.py) esté ubicado en la carpeta donde guardará sus datos.
-2. En la terminal (Mac/Linux) o en la línea de comandos (Windows), navegue hasta la carpeta de datos y escriba: `python LightSound2_data_parser.py filename.txt plot_lines savename.png`
-    - `filename` (nombre-archivo) es el prefijo del nombre del archivo de registro para los datos (la extensión debe ser la misma que la utilizada para el registro de datos)
+2. En la terminal (Mac/Linux) o en la línea de comandos (Windows), navegue hasta la carpeta de datos y escriba: `python LightSound2_data_parser.py filename plot_lines savename.png`
+    - `filename` es el nombre completo del archivo de datos (debe terminar con \_raw.log o \_data.csv)
     - `plot_lines` determina si la gráfica incluirá  ganancia o tiempo de integración
-        - Para trazar solo los valores de lux (intensidad), reemplace `plot_lines` con `0`
-        - Para trazar los tiempos de lux, ganancia e integración, reemplace `plot_lines` con `1` 
+        - Para  graficar solo los valores de lux (intensidad), reemplace `plot_lines` con `0`
+        - Para  graficar lux, ganancia y tiempo de integración, reemplace `plot_lines` con `1`
     - `savename` es el prefijo del nombre del archivo en que se guardará el gráfico; no use ninguno si no desea guardar la imagen (la extensión es típicamente .png)
