@@ -28,7 +28,7 @@ Runs on Python 3.x
 
 Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 1. Ensure that the serial logger program (LightSound2_data_plotter.py) is located in the folder where you will save your data
-2. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_parser.py filename.txt plot_lines savename.png`
+2. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_parser.py filename plot_lines savename.png`
     - `filename` is the full name of the data file (should end with \_raw.log or \_data.csv)
     - `plot_lines` determines whether the plot will include whether the gain and integration times
         - To plot the lux (intensity) values only, replace `plot_lines` with `0`
@@ -58,7 +58,7 @@ Requisitos del paquete: `datetime`, `sys` y [`pySerial`](https://pyserial.readth
     - En Windows: escriba el `mode` en la línea de comandos, el puerto debe tener el formato `COM*`
     - En Mac: escriba `ls /dev/tty.*` en la terminal, el puerto debe tener el formato `/dev/tty.usbmodem*` o `/dev/tty.usbserial*`
     - En Linux: escriba `ls /dev/tty.*` en el terminal, el puerto debe tener el formato `/dev/ttyUSB*` o `/dev/ttyACM*`
-4. En la terminal (Mac/Linux) o en la línea de comandos (Windows), navegue hasta la carpeta de datos y escriba: `python LightSound2_data_logger.py port 9600 timezone filename.txt`
+4. En la terminal (Mac/Linux) o en la línea de comandos (Windows), navegue hasta la carpeta de datos y escriba: `python LightSound2_data_logger.py port 9600 timezone file_prefix`
     - `port` es el nombre del puerto determinado en el Paso 3
     - `9600` es la velocidad en baudios para leer los datos de LightSound 2.0
     - `timezone` (ona horaria) es la zona horaria de las observaciones (por ejemplo, CST, EST, ART, CLT, etc.)
