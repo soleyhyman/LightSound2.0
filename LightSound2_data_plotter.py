@@ -12,8 +12,8 @@ import sys
 from datetime import datetime
 from matplotlib import pyplot as plt
 
-# Define function to read logged LightSound 2.0 data
-def LightSoundReaderV2(inputFilename):
+# Define functions to read logged LightSound 2.0 data (from .log and .csv files)
+def LightSoundReaderV2Raw(inputFilename):
 
 	# make lists
 	timezone = ''
@@ -26,6 +26,7 @@ def LightSoundReaderV2(inputFilename):
 	# read in input file
 	inputDataFile = open(inputFilename)
 	lines = inputDataFile.readlines()
+	inputDataFile.close()
 
 	# loop over lines
 	for l in range(len(lines)):
@@ -60,13 +61,55 @@ def LightSoundReaderV2(inputFilename):
 	return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
 
 
+def LightSoundReaderV2Data(inputFilename):
+
+	# make lists
+	timezone = ''
+	timestamp_list = []
+	time_list = []
+	lux_list = []
+	gain_list = []
+	integration_list = []
+
+	# read in input file
+	inputDataFile = open(inputFilename)
+	lines = inputDataFile.readlines()
+	inputDataFile.close()
+
+	# grab timezone
+	timezone = lines[0].split(None)[1]
+
+	# loop over lines
+	for l in range(2,len(lines)):
+		currentline = lines[l]
+		linesplit = currentline.strip('\n').split(',')
+		timestamp = datetime.strptime(linesplit[0], '%Y-%m-%d %H:%M:%S.%f')
+		timestamp_list.append(timestamp)
+		time = float(linesplit[1])
+		time_list.append(time)
+		lux = float(linesplit[2])
+		lux_list.append(lux)
+		gain = int(linesplit[3])
+		gain_list.append(gain)
+		integration = int(linesplit[4])
+		integration_list.append(integration)
+
+	return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
+
+############################
+
+# Read in and plot data
+
 # Read in arguments from command line
-filename = str(sys.argv[1])		 # Specify filename of logged data, with extension
+filename = str(sys.argv[1])		 # Specify filename of logged data (should end with *_raw.log or *_data.csv)
 plot_lines = int(sys.argv[2])	 # Specify whether to also graph gain and integration times (0 = lux only, 1 = lux, gain, and integrations)
 savename = str(sys.argv[3])		 # Specify savename (with extension, usually .png); use 'none' if no save desired
 
 # Read in data
-v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2(filename)
+if filename.split('.')[-1] == 'log': 
+	v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Raw(filename)
+elif filename.split('.')[-1] == 'csv': 
+	v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Data(filename)
 
 # Plot data
 if plot_lines == 0: 
@@ -81,7 +124,7 @@ xformatter = mdates.DateFormatter('%H:%M')
 plt.gcf().axes[0].xaxis.set_major_formatter(xformatter)
 
 # Format plot title and labels
-plt.title(v2_timestamps[0].strftime('Observations on %Y %b %d at approx. %H:%M ') + v2_timezone)
+plt.title(v2_timestamps[0].strftime('Observations on %Y %b %d starting at %H:%M ') + v2_timezone)
 plt.xlabel('Local time (%s)' % v2_timezone)
 plt.ylabel('Intensity (Lux)')
 if plot_lines != 0: plt.legend(loc='upper right')
