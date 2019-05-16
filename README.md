@@ -13,15 +13,15 @@ Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readt
 1. Ensure that the serial logger program (LightSound2_data_logger.py) is located in the folder where you will save your data
 2. Connect the LightSound 2.0 to the computer with a micro-USB B cord (must be able to transfer data)
 3. Determine the appropriate serial port of the LightSound 2.0
-    -	Windows: type `mode` into command line, port should have the form `COM*`
+    - Windows: type `mode` into command line, port should have the form `COM*`
     - Mac: type `ls /dev/tty.*` into terminal, port should have the form `/dev/tty.usbmodem*` or `/dev/tty.usbserial*` 
     - Linux: type `ls/dev/tty.*` into terminal, port should have the form `/dev/ttyUSB*` or `/dev/ttyACM*`
-4. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_logger.py port 9600 timezone filename.txt`
+4. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_logger.py port 9600 timezone file_prefix`
     - `port` is the port name determined in Step 3
     - `9600` is the baud rate for reading the LightSound 2.0 data
     - `timezone` is the timezone of observations (e.g. CST, EST, ART, CLT, etc.)
-    - `filename` is the prefix of the name of the log file for the data
-5. To stop data logging, press `Ctrl + C` in terminal/command line
+    - `file_prefix` is the prefix of the name of the data files
+5. To stop data logging, press `Ctrl + C` in terminal/command line. The script will automatically save raw data (\*\_raw.log) as a .csv file for later use.
 
 ### Instructions for plotting data
 Runs on Python 3.x
@@ -29,7 +29,7 @@ Runs on Python 3.x
 Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 1. Ensure that the serial logger program (LightSound2_data_plotter.py) is located in the folder where you will save your data
 2. In the terminal (Mac/Linux) or command line (Windows), navigate to data folder and type: `python LightSound2_data_parser.py filename.txt plot_lines savename.png`
-    - `filename` is the prefix of the name of the log file for the data (extension should be the same as used for the data logging)
+    - `filename` is the full name of the data file (should end with \_raw.log or \_data.csv)
     - `plot_lines` determines whether the plot will include whether the gain and integration times
         - To plot the lux (intensity) values only, replace `plot_lines` with `0`
         - To plot the lux, gain, and integration times, replace `plot_lines` with `1`
