@@ -7,7 +7,7 @@ LightSound is an Arduino-based device that converts light intensity to sound via
 More information and building instructions for LightSound 2.0 can be found at: http://astrolab.fas.harvard.edu/accessibility.html
 
 ### Instructions for logging data
-Runs on Python 3.x
+Runs on Python 2.7 and 3.x
 
 Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
 1. Ensure that the serial logger program (LightSound2_data_logger.py) is located in the folder where you will save your data
@@ -24,7 +24,7 @@ Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readt
 5. To stop data logging, press `Ctrl + C` in terminal/command line. The script will automatically save raw data (\*\_raw.log) as a .csv file for later use.
 
 ### Instructions for plotting data
-Runs on Python 3.x
+Runs on Python 2.7 and 3.x
 
 Package requirements: `datetime`, `matplotlib`, `numpy`, `sys`
 1. Ensure that the serial logger program (LightSound2_data_plotter.py) is located in the folder where you will save your data
@@ -48,7 +48,7 @@ Se puede encontrar más información e instrucciones de construcción para Light
 
 
 ### Instrucciones para el registro de datos
-El script corre en Python 3.x
+El script corre en Python 2.7 y 3.x
 
 Requisitos del paquete: `datetime`, `sys` y [`pySerial`](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
 
@@ -66,7 +66,7 @@ Requisitos del paquete: `datetime`, `sys` y [`pySerial`](https://pyserial.readth
 5. Para detener e registro de datos, presionar Ctrl + C en la terminal/linea de comandos. El script salvará automáticamente los datos crudos (\*\_raw.log) como un archivo .csv para su uso posterior.
 
 ### Instrucciones para graficar los datos
-Corre en Python 3.x
+Corre en Python 2.7 y 3.x
 
 Requisitos del paquete: `datetime`, `matplotlib`, `numpy`, `sys`
 
