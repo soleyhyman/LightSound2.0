@@ -119,14 +119,17 @@ void setup() {
     while (1); // halt!
   }
 
-  //Start MIDI
+  //Start VS1053 module
   VS1053_MIDI.begin(31250); // MIDI uses a 'strange baud rate'
-  pinMode(VS1053_RESET, OUTPUT);    // defines output pin on MIDI board?
-  digitalWrite(VS1053_RESET, LOW);  // not sure what this does
-  delay(10);                        // delay of time? not sure what for
-  digitalWrite(VS1053_RESET, HIGH); // not sure what this does
-  delay(10);                        // delay of time? not sure what for
- 
+  
+  //Resetting the VS1053 board before using it
+  pinMode(VS1053_RESET, OUTPUT);    // Set the VS1053 assigned pin as Digital Output
+  digitalWrite(VS1053_RESET, LOW);  // Reset VS1053 module by shorting the reset pin to the ground
+  delay(10);                        // Waiting a bit while the reset is being performed
+  digitalWrite(VS1053_RESET, HIGH); // Stop shorting the pin (sending 3.3v)
+  delay(10);                        // Waiting again before initialize the module
+  
+  // Initialize MIDI
   midiSetChannelBank(0, VS1053_BANK_MELODY); // sets melody channel for MIDI board
   midiSetInstrument(0, VS1053_GM1_CLARINET); // sets clarinet sound for MIDI instrument
   midiSetChannelVolume(0, 127);              // sets volume -- able to change volume
