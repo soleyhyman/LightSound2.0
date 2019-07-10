@@ -10,6 +10,8 @@ To hear the sounds produced by LightSound 2.0, the device must be connected to s
 
 More information and building instructions for LightSound 2.0 can be found at: http://astrolab.fas.harvard.edu/accessibility.html
 
+**Please note: The LightSound device code and instructions provided (both in this repository and on the website) are open source, but they may *not* be used to build LightSounds for profit.**
+
 ### Instructions for logging data
 Runs on Python 2.7 or 3.x
 
