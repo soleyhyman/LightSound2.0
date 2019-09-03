@@ -101,7 +101,7 @@ int nwaitHigh = 200;
 /**************************************************************************/
 // lux sensor setup
 Adafruit_TSL2591 tsl = Adafruit_TSL2591(2591); // TSL2591 Lux sensor
-SoftwareSerial VS1053_MIDI(0, VS1053_RX); //MIDI board; TX only, do not use the 'rx' side
+SoftwareSerial VS1053_MIDI(4, VS1053_RX); //MIDI board; TX only, do not use the 'rx' side. Set RX to any unused pin
 
 /**************************************************************************/
 // define setup loop
