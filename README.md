@@ -4,11 +4,11 @@ Python data logger, plotter, and Arduino code for LightSound 2.0 devices
 ### About LightSound
 LightSound is an Arduino-based device that converts light intensity to sound via a light sensor and MIDI board so that blind and visually impaired (BVI) individuals may experience astronomical events like solar eclipses. The original version (LightSound 1.0) was designed and used during the total solar eclipse on August 21, 2017. In preparation for the upcoming North and South American total solar eclipses (2019, 2020, and 2024), LightSound has been redesigned with higher sensitivities and an improved sound library. The project has received funding from IAU100 to build and distribute 20 LightSound 2.0 devices to schools in Chile and Argentina so that BVI students in the path of the 2019 and 2020 solar eclipses may experience the events. 
 
-The LightSound 2.0 devices can run on a 9-volt battery (portable mode) or off of computer power (logging mode). When in portable mode, the switch will turn the device on and off. In order to record data, LightSound must be connected to a computer. In this case, the device runs off of the computer power and will remain on as long as it is plugged in.
+The LightSound 2.0 devices can run on a 9-volt or Li-ion battery (portable mode) or off of computer power (logging mode). When in portable mode, the switch will turn the device on and off. In order to record data, LightSound must be connected to a computer. In this case, the device runs off of the computer power and will remain on as long as it is plugged in.
 
 To hear the sounds produced by LightSound 2.0, the device must be connected to speakers or headphones via the audio jack.
 
-More information and building instructions for LightSound 2.0 can be found at: http://astrolab.fas.harvard.edu/accessibility.html
+More information and building instructions for LightSound 2.0 can be found at: [https://astrolab.fas.harvard.edu/LightSound.html](https://astrolab.fas.harvard.edu/LightSound.html)
 
 **Please note: The LightSound device code and instructions provided (both in this repository and on the website) are open source, but they may *not* be used to build LightSounds for profit.**
 
@@ -51,13 +51,13 @@ Python data logger, plotter y código para Arduino de dispositivos LightSound 2.
 
 LightSound es un dispositivo basado en Arduino que convierte la intensidad de la luz en sonido a través de un sensor de luz y una placa MIDI para que las personas ciegas y con discapacidades visuales (BVI) puedan experimentar eventos astronómicos como los eclipses solares. La versión original (LightSound 1.0) se diseñó y usó durante el eclipse total de Sol el 21 de agosto de 2017, en los Estados Unidos. En preparación para los próximos eclipses solares totales en Norteamérica y Sudamérica (2019, 2020 y 2024), LightSound se ha rediseñado con mayor sensibilidad y una biblioteca de sonido mejorada. El proyecto ha recibido fondos de IAU100 para construir y distribuir 20 dispositivos LightSound 2.0 a escuelas en Chile y Argentina para que los estudiantes BVI que se encuentren en el camino de los eclipses solares de 2019 y 2020 puedan experimentar los eventos. 
 
-El LightSound trabaja con una batería de 9 voltios si se lo usa en su modo portátil. El interruptor del dispositivo lo apaga unicamente si se usa esa batería. 
+El LightSound trabaja con una batería de 9 voltios o batería de Li-Ion si se lo usa en su modo portátil. El interruptor del dispositivo lo apaga unicamente si se usa esa batería. 
 
 Para escuchar la transformación de luz en sonido, es necesario que el LightSound esté conectado a un dispositivo externo: auriculares o parlantes.
 
  Para registro y analisis de datos, el LightSound debe estar conectado a la PC, en este caso no necesita batería y el interruptor no tiene acción sobre el dispositivo, por eso, conectado a la PC el dispositivo estará trabajando permanentemente.
 
-Se puede encontrar más información e instrucciones de construcción para LightSound 2.0 en: http://astrolab.fas.harvard.edu/accessibility.html
+Se puede encontrar más información e instrucciones de construcción para LightSound 2.0 en: [https://astrolab.fas.harvard.edu/LightSound.html](https://astrolab.fas.harvard.edu/LightSound.html)
 
 
 ### Instrucciones para el registro de datos
