@@ -15,7 +15,7 @@ More information and building instructions for LightSound 2.0 can be found at: [
 ### Instructions for logging data
 Runs on Python 2.7 or 3.x
 
-Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
+Package requirements: `numpy`, `matplotlib`, and [`pySerial`](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
 1. Ensure that the serial logger program (LightSound2_data_logger.py) is located in the folder where you will save your data
 2. Connect the LightSound 2.0 to the computer with a micro-USB B cord (must be able to transfer data)
 3. Determine the appropriate serial port of the LightSound 2.0
@@ -27,8 +27,11 @@ Package requirements: `datetime`, `sys`, and [`pySerial`](https://pyserial.readt
     - `9600` is the baud rate for reading the LightSound 2.0 data
     - `timezone` is the timezone of observations (e.g. CST, EST, ART, CLT, etc.)
     - `file_prefix` is the prefix of the name of the data files (the script saves the data with the correct extension)
-5. The brightness values that are being recorded by the LightSound will be visible in the terminal.
-6. To stop data logging, press `Ctrl + C` in terminal/command line. The script will automatically save the raw data (\*\_raw.log) as a .csv (\*\_data.csv) file for later use.
+5. A plotting window will pop up once you start the code and will start live-plotting the data that the LightSound is recording. The brightness values that are being recorded by the LightSound will be visible in the terminal. 
+
+>**Important note:** DO NOT click the red 'x' button of the plotting window to exit the code. This will cause an error in the code plotting. To stop the data recording, click back into proceed to step 6. If you do accidentally exit this window via the exit button, don't panic! Just click back into the terminal and press `Ctrl + C` or `Command + C` repeatedly until it exits the code. The .csv file will not be produced, but the raw data will still be saved, which you can later turn into a csv file.
+
+6. To stop data logging, click back into your terminal and press `Ctrl + C` or `Command + C` in terminal/command line. Sometimes you need to do this multiple times for it properly stop. The script will automatically save the raw data (\*\_raw.log) as a .csv (\*\_data.csv) file for later use.
 
 ### Instructions for plotting data
 Runs on Python 2.7 or 3.x

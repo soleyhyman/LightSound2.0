@@ -1,8 +1,8 @@
 ##############
 ## Data plotter for LightSound 2.0
 ## Code developed by Soley Hyman
-## last updated: 14 May 2019 
-## Python package requirements: datetime, matplotlib, numpy, sys
+## last updated: 06 October 2023 
+## Python package requirements: matplotlib, numpy
 ##############
 
 # Import packages
@@ -14,87 +14,94 @@ from matplotlib import pyplot as plt
 
 # Define functions to read logged LightSound 2.0 data (from .log and .csv files)
 def LightSoundReaderV2Raw(inputFilename):
+    # make lists
+    timezone = ''
+    timestamp_list = []
+    time_list = []
+    lux_list = []
+    gain_list = []
+    integration_list = []
 
-	# make lists
-	timezone = ''
-	timestamp_list = []
-	time_list = []
-	lux_list = []
-	gain_list = []
-	integration_list = []
+    # read in input file
+    inputDataFile = open(inputFilename)
+    lines = inputDataFile.readlines()
+    inputDataFile.close()
 
-	# read in input file
-	inputDataFile = open(inputFilename)
-	lines = inputDataFile.readlines()
-	inputDataFile.close()
+    # loop over lines
+    for l in range(len(lines)):
+        currentline = lines[l]
+        if currentline.startswith("Timezone"):
+            linesplit = currentline.split(None)
+            timezone = linesplit[1]			
+        if currentline.startswith("Time:"):
+            linesplit = currentline.split(None)
+            timestamp = linesplit[1] + ' ' + linesplit[2]
+            timestamp_fmt = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
+            timestamp_list.append(timestamp_fmt)
+        elif currentline.startswith("["):
+            linesplit = currentline.split(None)
+            time = float(linesplit[1])
+            time_list.append(time)
+        elif currentline.startswith("Visible"):
+            linesplit = currentline.split(None)
+            lux = float(linesplit[2])
+            lux_list.append(lux)
+        elif currentline.startswith("Gain"):
+            linesplit = currentline.split(None)
+            gain = int(linesplit[1].strip('x'))
+            gain_list.append(gain)
+        elif currentline.startswith("Integration"):
+            linesplit = currentline.split(None)
+            integration = int(linesplit[1])
+            integration_list.append(integration)
+        else:
+            pass
 
-	# loop over lines
-	for l in range(len(lines)):
-		currentline = lines[l]
-		if currentline.startswith("Timezone"):
-			linesplit = currentline.split(None)
-			timezone = linesplit[1]			
-		if currentline.startswith("Time:"):
-			linesplit = currentline.split(None)
-			timestamp = linesplit[1] + ' ' + linesplit[2]
-			timestamp_fmt = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
-			timestamp_list.append(timestamp_fmt)
-		elif currentline.startswith("["):
-			linesplit = currentline.split(None)
-			time = float(linesplit[1])
-			time_list.append(time)
-		elif currentline.startswith("Visible"):
-			linesplit = currentline.split(None)
-			lux = float(linesplit[2])
-			lux_list.append(lux)
-		elif currentline.startswith("Gain"):
-			linesplit = currentline.split(None)
-			gain = int(linesplit[1].strip('x'))
-			gain_list.append(gain)
-		elif currentline.startswith("Integration"):
-			linesplit = currentline.split(None)
-			integration = int(linesplit[1])
-			integration_list.append(integration)
-		else:
-			pass
+# trim lists to have the same length
+    endSeries = np.min([len(i) for i in [timestamp_list, time_list, lux_list, gain_list, integration_list]])
+    timestamp_list = timestamp_list[:endSeries]
+    time_list = time_list[:endSeries]
+    lux_list = lux_list[:endSeries]
+    gain_list = gain_list[:endSeries]
+    integration_list = integration_list[:endSeries]
 
-	return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
+    return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
 
 
 def LightSoundReaderV2Data(inputFilename):
 
-	# make lists
-	timezone = ''
-	timestamp_list = []
-	time_list = []
-	lux_list = []
-	gain_list = []
-	integration_list = []
+    # make lists
+    timezone = ''
+    timestamp_list = []
+    time_list = []
+    lux_list = []
+    gain_list = []
+    integration_list = []
 
-	# read in input file
-	inputDataFile = open(inputFilename)
-	lines = inputDataFile.readlines()
-	inputDataFile.close()
+    # read in input file
+    inputDataFile = open(inputFilename)
+    lines = inputDataFile.readlines()
+    inputDataFile.close()
 
-	# grab timezone
-	timezone = lines[0].split(None)[1]
+    # grab timezone
+    timezone = lines[0].split(None)[1]
 
-	# loop over lines
-	for l in range(2,len(lines)):
-		currentline = lines[l]
-		linesplit = currentline.strip('\n').split(',')
-		timestamp = datetime.strptime(linesplit[0], '%Y-%m-%d %H:%M:%S.%f')
-		timestamp_list.append(timestamp)
-		time = float(linesplit[1])
-		time_list.append(time)
-		lux = float(linesplit[2])
-		lux_list.append(lux)
-		gain = int(linesplit[3])
-		gain_list.append(gain)
-		integration = int(linesplit[4])
-		integration_list.append(integration)
+    # loop over lines
+    for l in range(2,len(lines)):
+        currentline = lines[l]
+        linesplit = currentline.strip('\n').split(',')
+        timestamp = datetime.strptime(linesplit[0], '%Y-%m-%d %H:%M:%S.%f')
+        timestamp_list.append(timestamp)
+        time = float(linesplit[1])
+        time_list.append(time)
+        lux = float(linesplit[2])
+        lux_list.append(lux)
+        gain = int(linesplit[3])
+        gain_list.append(gain)
+        integration = int(linesplit[4])
+        integration_list.append(integration)
 
-	return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
+    return 	timezone, timestamp_list, time_list, lux_list, gain_list, integration_list
 
 ############################
 
@@ -107,17 +114,17 @@ savename = str(sys.argv[3])		 # Specify savename (with extension, usually .png);
 
 # Read in data
 if filename.split('.')[-1] == 'log': 
-	v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Raw(filename)
+    v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Raw(filename)
 elif filename.split('.')[-1] == 'csv': 
-	v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Data(filename)
+    v2_timezone, v2_timestamps, v2_times, v2_lux, v2_gains, v2_integrations = LightSoundReaderV2Data(filename)
 
 # Plot data
 if plot_lines == 0: 
-	plt.plot(v2_timestamps, v2_lux, color='blue', label='Lux')
+    plt.plot(v2_timestamps, v2_lux, color='blue', label='Lux')
 elif plot_lines == 1:
-	plt.plot(v2_timestamps, v2_lux, color='blue', label='Lux')
-	plt.plot(v2_timestamps, v2_gains, color='red', label='Gain')
-	plt.plot(v2_timestamps, v2_integrations, color='green', label='Integration')
+    plt.plot(v2_timestamps, v2_lux, color='blue', label='Lux')
+    plt.plot(v2_timestamps, v2_gains, color='red', label='Gain')
+    plt.plot(v2_timestamps, v2_integrations, color='green', label='Integration')
 
 # Format plot ticks
 xformatter = mdates.DateFormatter('%H:%M')
@@ -130,8 +137,8 @@ plt.ylabel('Intensity (Lux)')
 if plot_lines != 0: plt.legend(loc='upper right')
 
 # Save image and show plot
-if savename != 'none':
-	plt.savefig(savename, dpi=500, bbox_inches='tight')
-	plt.show()
+if savename != 'none' and savename != 'None' and savename != 'NONE':
+    plt.savefig(savename, dpi=500, bbox_inches='tight')
+    plt.show()
 else:
-	plt.show()
+    plt.show()
