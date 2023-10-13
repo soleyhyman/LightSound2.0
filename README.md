@@ -29,9 +29,9 @@ Package requirements: `numpy`, `matplotlib`, and [`pySerial`](https://pyserial.r
     - `file_prefix` is the prefix of the name of the data files (the script saves the data with the correct extension)
 5. A plotting window will pop up once you start the code and will start live-plotting the data that the LightSound is recording. The brightness values that are being recorded by the LightSound will be visible in the terminal. 
 
->**Important note:** DO NOT click the red 'x' button of the plotting window to exit the code. This will cause an error in the code plotting. To stop the data recording, click back into proceed to step 6. If you do accidentally exit this window via the exit button, don't panic! Just click back into the terminal and press `Ctrl + C` or `Command + C` repeatedly until it exits the code. The .csv file will not be produced, but the raw data will still be saved, which you can later turn into a csv file.
+>**Important note:** DO NOT click the red 'x' button of the plotting window to exit the code. This will cause an error in the code plotting. To stop the data recording, click back into proceed to step 6. If you do accidentally exit this window via the exit button, don't panic! Just click back into the terminal and press `Ctrl + C` repeatedly until it exits the code. The .csv file will not be produced, but the raw data will still be saved, which you can later turn into a csv file.
 
-6. To stop data logging, click back into your terminal and press `Ctrl + C` or `Command + C` in terminal/command line. Sometimes you need to do this multiple times for it properly stop. The script will automatically save the raw data (\*\_raw.log) as a .csv (\*\_data.csv) file for later use.
+6. To stop data logging, click back into your terminal and press `Ctrl + C` in terminal/command line. Sometimes you need to do this multiple times for it properly stop. The script will automatically save the raw data (\*\_raw.log) as a .csv (\*\_data.csv) file for later use.
 
 ### Instructions for plotting data
 Runs on Python 2.7 or 3.x
