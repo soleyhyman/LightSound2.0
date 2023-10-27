@@ -18,6 +18,8 @@ from itertools import permutations
 from tkinter import Tk     # from tkinter import Tk for Python 3.x
 from tkinter.filedialog import asksaveasfilename 
 import os
+import time
+import serial.tools.list_ports
 
 # Define function to read logged LightSound 2.0 data
 def LightSoundReaderV2Log(inputFilename):
@@ -113,6 +115,7 @@ print('-----------')
 #     if language == '':
 #         language = input("Please type '0' for English, '1' for Español, '2' for Français: ").lower()
 #     elif language in exit_quit_misspellings:
+#         time.sleep(1.5)
 #         sys.exit()
 #     elif language not in ['0','1','2']:
 #         language = input("Please type '0' for English, '1' for Español, '2' for Français: ").lower()
@@ -138,7 +141,7 @@ if len(ports) == 1:
 else:
     numPortRange = range(len(ports))
     numPortRangeIDs = [str(i) for i in numPortRange]
-    print("There is more than one available port identified. Please choose from the list below.\n   Windows: the port should start with COM, followed by a number\n   Mac: the port should have the form /dev/tty.usbmodem* or /dev/tty.usbserial*\n   Linux: the port should have the form /dev/ttyUSB* or /dev/ttyACM*")
+    print("There are more than one available port identified. Please choose from the list below.\n   Windows: the port should start with COM, followed by a number\n   Mac: the port should have the form /dev/tty.usbmodem* or /dev/tty.usbserial*\n   Linux: the port should have the form /dev/ttyUSB* or /dev/ttyACM*")
     print("Available ports:")
     for i in numPortRange: print(str(i) + ' - ' + str(ports[i]))
     portID = input("Please enter the number (i.e., {} - {}) corresponding to the desired port: ".format(numPortRange[0],numPortRange[-1])).lower()
@@ -147,7 +150,8 @@ else:
             portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
         elif portID.lower() in exit_quit_misspellings:
             print('\nExiting program.')
-            sys.exit()
+            time.sleep(1.5)
+            sys.exit()            
         if portID not in numPortRangeIDs:
             portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
         else:
@@ -162,7 +166,8 @@ while (timezone=='') or (timezone.lower() in exit_quit_misspellings):
         timezone = input("\nPlease enter the timezone: ")
     elif timezone.lower() in exit_quit_misspellings:
         print('\nExiting program.')
-        sys.exit()
+        time.sleep(1.5)
+        sys.exit()        
     else:
         pass
 
@@ -174,7 +179,8 @@ while (filebrowser=='') or (filebrowser not in ['0','1']) or (filebrowser in exi
         filebrowser = input("\nPlease type '0' for file browser or '1' for manual entry: ").lower()
     elif filebrowser in exit_quit_misspellings:
         print('\nExiting program.')
-        sys.exit()
+        time.sleep(1.5)
+        sys.exit()        
     elif filebrowser not in ['0','1']:
         filebrowser = input("\nPlease type '0' for file browser or '1' for manual entry: ").lower()
     else:
@@ -187,14 +193,16 @@ if filebrowser == '0':
             print('Please enter a valid file prefix.')
             filebrowserError = input("\nYou did not enter a valid file prefix. Please type 'quit' to exit or press Enter to re-enter file prefix: ")
             if filebrowserError in exit_quit_misspellings:
-                sys.exit()
+                time.sleep(1.5)
+                sys.exit()                
             else:
                 Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
                 file_prefix = asksaveasfilename(defaultextension="", filetypes=(("File prefix", ""),)).strip('_raw.log').strip('_data.csv')
         elif os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
             overwriteYN = input("\nA file with that prefix already exists. Do you want to overwrite? (type 'y' for yes or 'n' for no)\ny or n: ").lower()
             if overwriteYN in exit_quit_misspellings:
-                sys.exit()
+                time.sleep(1.5)
+                sys.exit()                
             elif overwriteYN not in ['y','n']:
                 overwriteYN = input("\nPlease type 'y' to overwrite exisiting files or 'n' to choose a different name.\ny or n: ").lower()
             elif overwriteYN == 'y':
@@ -209,11 +217,13 @@ else:
             file_prefix = input("\nPlease enter the filename prefix: ")
         elif file_prefix.lower() in exit_quit_misspellings:
             print('\nExiting program.')
-            sys.exit()
+            time.sleep(1.5)
+            sys.exit()            
         elif os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
             overwriteYN = input("\nA file with that prefix already exists. Do you want to overwrite? (type 'y' for yes or 'n' for no)\ny or n: ").lower()
             if overwriteYN in exit_quit_misspellings:
-                sys.exit()
+                time.sleep(1.5)
+                sys.exit()                
             elif overwriteYN not in ['y','n']:
                 overwriteYN = input("\nPlease type 'y' to overwrite exisiting files or 'n' to choose a different name.\ny or n: ").lower()
             elif overwriteYN == 'y':
@@ -229,7 +239,8 @@ while (liveplotting=='') or (liveplotting in exit_quit_misspellings) or (liveplo
         liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
     elif (liveplotting=='quit') or (liveplotting=='exit'):
         print('\nExiting program.')
-        sys.exit()
+        time.sleep(1.5)
+        sys.exit()        
     elif liveplotting not in ['y','n']:
         liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
     else:
