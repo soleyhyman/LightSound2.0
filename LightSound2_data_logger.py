@@ -129,18 +129,30 @@ print('-----------')
 # print('-----------')
 
 # Read arguments from command line
-serial_port = input("\nEnter the serial port for the LightSound. Type 'help' for help on finding it or 'quit' to exit.\nSerial port: ")
-while (serial_port.lower() == 'help') or (serial_port.lower()=='') or (serial_port.lower() in exit_quit_misspellings):
-    if serial_port.lower() == 'help':
-        print("\n   The serial port can be found using 'mode' command (Windows), ls /dev/tty.* for Mac \n   (should be /dev/tty.usbmodem* or /dev/tty.usbserial* ), or via /dev/tty* for Linux \n   (should be /dev/ttyUSB* or /dev/ttyACM*).")
-        serial_port = input("\nPlease enter the serial port: ")
-    elif serial_port=='':
-        serial_port = input("\nPlease enter the serial port: ")
-    elif serial_port.lower() in exit_quit_misspellings:
-        print('\nExiting program.')
-        sys.exit()
-    else:
-        pass
+print('\nIdentifying serial port for LightSound')
+ports = serial.tools.list_ports.comports()
+if len(ports) == 1:
+    print('Only one port found at ' + str(ports[0]))
+    print('Connecting to port.')
+    serial_port = ports[0][0]
+else:
+    numPortRange = range(len(ports))
+    numPortRangeIDs = [str(i) for i in numPortRange]
+    print("There is more than one available port identified. Please choose from the list below.\n   Windows: the port should start with COM, followed by a number\n   Mac: the port should have the form /dev/tty.usbmodem* or /dev/tty.usbserial*\n   Linux: the port should have the form /dev/ttyUSB* or /dev/ttyACM*")
+    print("Available ports:")
+    for i in numPortRange: print(str(i) + ' - ' + str(ports[i]))
+    portID = input("Please enter the number (i.e., {} - {}) corresponding to the desired port: ".format(numPortRange[0],numPortRange[-1])).lower()
+    while (portID=='') or (portID in exit_quit_misspellings) or (portID not in numPortRangeIDs):
+        if portID=='':
+            portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
+        elif portID.lower() in exit_quit_misspellings:
+            print('\nExiting program.')
+            sys.exit()
+        if portID not in numPortRangeIDs:
+            portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
+        else:
+            pass
+    serial_port = ports[int(portID)][0]
 
 print('-----------')
 
