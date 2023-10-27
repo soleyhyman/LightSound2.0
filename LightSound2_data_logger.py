@@ -5,6 +5,8 @@
 ## Python package requirements: numpy, matplotlib, pySerial (https://pyserial.readthedocs.io/en/latest/pyserial.html#installation), datetime, sys
 ##############
 
+# coding=utf-8
+
 # Import packages
 import serial
 import sys
@@ -12,6 +14,10 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from itertools import permutations
+from tkinter import Tk     # from tkinter import Tk for Python 3.x
+from tkinter.filedialog import asksaveasfilename 
+import os
 
 # Define function to read logged LightSound 2.0 data
 def LightSoundReaderV2Log(inputFilename):
@@ -91,43 +97,192 @@ def animate(i, times, luxes):
     ax.set_ylabel('Intensity (Lux)')
 
 ##################################
+exit_quit_misspellings = [''.join(p) for p in permutations('quit')] + [''.join(p) for p in permutations('exit')]
+baud_rate = int(9600)	# Should be 9600 for LightSound 2.0
+
+print('\n')
+print('LIGHTSOUND 2.0 DATA LOGGER')
+print()
+print("Directions:\nPress Enter after you finish typing into each prompt to continue.\nType 'quit' followed by Enter at any time to exit.")
+print("Once the data logging begins, click into this window and use the Ctrl+C command to end logging.")
+print('-----------')
 
 # Read arguments from command line
-serial_port = str(sys.argv[1])	# Can be found using 'mode' command (Windows), ls /dev/tty.* (should be /dev/tty.usbmodem* or /dev/tty.usbserial* for Mac; /dev/ttyUSB* or /dev/ttyACM* for Linux)
-baud_rate = int(sys.argv[2])	# Should be 9600 for LightSound 2.0
-timezone = str(sys.argv[3])		# Specify timezone of observations (e.g. CST, EST, ART, CLT, etc.)
-file_prefix = str(sys.argv[4])		# Specify filename prefix for data files (NO extension)
+# language = input("Select language:\n   0 = English   1 = Español   2 = Français.\nEnter language ID or type 'quit' to exit and press enter: ").lower()
+# while (language == '') or (language in exit_quit_misspellings) or (language not in ['0','1','2']):
+#     if language == '':
+#         language = input("Please type '0' for English, '1' for Español, '2' for Français: ").lower()
+#     elif language in exit_quit_misspellings:
+#         sys.exit()
+#     elif language not in ['0','1','2']:
+#         language = input("Please type '0' for English, '1' for Español, '2' for Français: ").lower()
+
+# if language == '0':
+#     pass
+# elif language == '1':
+#     pass
+# elif language == '2':
+#     pass
+# else:
+#     pass
+
+# print('-----------')
+
+# Read arguments from command line
+serial_port = input("\nEnter the serial port for the LightSound. Type 'help' for help on finding it or 'quit' to exit.\nSerial port: ")
+while (serial_port.lower() == 'help') or (serial_port.lower()=='') or (serial_port.lower() in exit_quit_misspellings):
+    if serial_port.lower() == 'help':
+        print("\n   The serial port can be found using 'mode' command (Windows), ls /dev/tty.* for Mac \n   (should be /dev/tty.usbmodem* or /dev/tty.usbserial* ), or via /dev/tty* for Linux \n   (should be /dev/ttyUSB* or /dev/ttyACM*).")
+        serial_port = input("\nPlease enter the serial port: ")
+    elif serial_port=='':
+        serial_port = input("\nPlease enter the serial port: ")
+    elif serial_port.lower() in exit_quit_misspellings:
+        print('\nExiting program.')
+        sys.exit()
+    else:
+        pass
+
+print('-----------')
+
+timezone = input("\nSpecify the timezone of your observations (e.g., CST, EST, ART, CLT, etc.): ")
+while (timezone=='') or (timezone.lower() in exit_quit_misspellings):
+    if timezone =='':
+        timezone = input("\nPlease enter the timezone: ")
+    elif timezone.lower() in exit_quit_misspellings:
+        print('\nExiting program.')
+        sys.exit()
+    else:
+        pass
+
+print('-----------')
+
+filebrowser = input("\nHow do you want to choose the filename and location of your?\n   0 = file browser window   1 = manual entry\nFile selection method: ").lower()
+while (filebrowser=='') or (filebrowser not in ['0','1']) or (filebrowser in exit_quit_misspellings):
+    if filebrowser =='':
+        filebrowser = input("\nPlease type '0' for file browser or '1' for manual entry: ").lower()
+    elif filebrowser in exit_quit_misspellings:
+        print('\nExiting program.')
+        sys.exit()
+    elif filebrowser not in ['0','1']:
+        filebrowser = input("\nPlease type '0' for file browser or '1' for manual entry: ").lower()
+    else:
+        pass
+if filebrowser == '0':
+    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+    file_prefix = asksaveasfilename(defaultextension="", filetypes=(("File prefix", ""),)).strip('_raw.log').strip('_data.csv')
+    while file_prefix == '' or os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
+        if file_prefix == '':
+            print('Please enter a valid file prefix.')
+            filebrowserError = input("\nYou did not enter a valid file prefix. Please type 'quit' to exit or press Enter to re-enter file prefix: ")
+            if filebrowserError in exit_quit_misspellings:
+                sys.exit()
+            else:
+                Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+                file_prefix = asksaveasfilename(defaultextension="", filetypes=(("File prefix", ""),)).strip('_raw.log').strip('_data.csv')
+        elif os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
+            overwriteYN = input("\nA file with that prefix already exists. Do you want to overwrite? (type 'y' for yes or 'n' for no)\ny or n: ").lower()
+            if overwriteYN in exit_quit_misspellings:
+                sys.exit()
+            elif overwriteYN not in ['y','n']:
+                overwriteYN = input("\nPlease type 'y' to overwrite exisiting files or 'n' to choose a different name.\ny or n: ").lower()
+            elif overwriteYN == 'y':
+                break
+            else:
+                Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+                file_prefix = asksaveasfilename(defaultextension="", filetypes=(("File prefix", ""),)).strip('_raw.log').strip('_data.csv')
+else:
+    file_prefix = input("\nSpecify the filename prefix for the data files. Do not include an extension.\nFilename prefix: ")
+    while (file_prefix=='') or (file_prefix.lower() in exit_quit_misspellings) or os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
+        if file_prefix =='':
+            file_prefix = input("\nPlease enter the filename prefix: ")
+        elif file_prefix.lower() in exit_quit_misspellings:
+            print('\nExiting program.')
+            sys.exit()
+        elif os.path.isfile(file_prefix+'_raw.log') or os.path.isfile(file_prefix+'_data.csv'):
+            overwriteYN = input("\nA file with that prefix already exists. Do you want to overwrite? (type 'y' for yes or 'n' for no)\ny or n: ").lower()
+            if overwriteYN in exit_quit_misspellings:
+                sys.exit()
+            elif overwriteYN not in ['y','n']:
+                overwriteYN = input("\nPlease type 'y' to overwrite exisiting files or 'n' to choose a different name.\ny or n: ").lower()
+            elif overwriteYN == 'y':
+                break
+            else:
+                file_prefix = input("\nPlease enter a new filename prefix: ")
+
+print('-----------')
+
+liveplotting = input("\nDo you want to show the live-plotting graph? Type 'y' if yes and 'n' if no.\ny or n: ").lower()
+while (liveplotting=='') or (liveplotting in exit_quit_misspellings) or (liveplotting not in ['y','n']):
+    if liveplotting =='':
+        liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
+    elif (liveplotting=='quit') or (liveplotting=='exit'):
+        print('\nExiting program.')
+        sys.exit()
+    elif liveplotting not in ['y','n']:
+        liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
+    else:
+        pass
+
+print('\n-----------')
 
 # Create serial port
 ser = serial.Serial(serial_port, baud_rate)
 
-# Create figure and axis for liveplotting
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-times = []
-luxes = []
-plottingLine, = ax.plot(times,luxes, color='b', zorder=1)
+if liveplotting ==  'y':
+    # Create figure and axis for liveplotting
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    times = []
+    luxes = []
+    plottingLine, = ax.plot(times,luxes, color='b', zorder=1)
 
-# Format plot title and labels
-initialTime = datetime.now()
-ax.set_title(initialTime.strftime('Observations on %Y %b %d starting at %H:%M ') + timezone)
-ax.set_xlabel('Local time (%s)' % timezone)
-ax.set_ylabel('Intensity (Lux)')
-############
+    # Format plot title and labels
+    initialTime = datetime.now()
+    ax.set_title(initialTime.strftime('Observations on %Y %b %d starting at %H:%M ') + timezone)
+    ax.set_xlabel('Local time (%s)' % timezone)
+    ax.set_ylabel('Intensity (Lux)')
 
-# Open logging file and begin logging data
-with open(file_prefix + '_raw.log', 'w+') as f:
-    print('Timezone:', timezone, '\n')
-    f.writelines('Timezone: ' + timezone + '\r \n')
-    while True:
-        try:
-            ani = animation.FuncAnimation(fig, animate, fargs=(times, luxes), interval=50)
-            plt.show()
-        except KeyboardInterrupt:
-            plt.savefig(file_prefix + "_livePlot.png", dpi=300)
-            f.close()
-            print('Logging terminated')
-            break
+    # Open logging file and begin logging data
+    with open(file_prefix + '_raw.log', 'w+') as f:
+        print('Timezone:', timezone, '\n')
+        f.writelines('Timezone: ' + timezone + '\r \n')
+        while True:
+            try:
+                ani = animation.FuncAnimation(fig, animate, fargs=(times, luxes), interval=50)
+                plt.show()
+            except KeyboardInterrupt:
+                plt.savefig(file_prefix + "_livePlot.png", dpi=300)
+                f.close()
+                print('Logging terminated')
+                break
+else:
+    # Open logging file and begin logging data
+    with open(file_prefix + '_raw.log', 'w+') as f:
+        print('Timezone:', timezone, '\n')
+        f.writelines('Timezone: ' + timezone + '\r \n')
+        while True:
+            try:
+                timeNow = datetime.now()
+                line = ser.readline()
+                line = line.decode("utf-8")
+                if line.startswith('['):
+                    f.writelines('Time: ' + str(timeNow) + '\n')
+                    print('Time:', timeNow)
+                    f.writelines([line])
+                    print(line.strip('\n'))	
+                elif line.startswith('Visible'):
+                    f.writelines([line])
+                    print(line.strip('\n'))	
+                    # times.append(timeNow)
+                    # luxes.append(float(line.split(None)[2]))
+                else:
+                    f.writelines([line])
+                    print(line.strip('\n'))
+            except KeyboardInterrupt:
+                # plt.savefig(file_prefix + "_livePlot.png", dpi=300)
+                f.close()
+                print('Logging terminated')
+                break
 
 ############################
 
