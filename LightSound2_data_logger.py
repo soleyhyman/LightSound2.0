@@ -105,6 +105,14 @@ baud_rate = int(9600)	# Should be 9600 for LightSound 2.0
 print('\n')
 print('LIGHTSOUND 2.0 DATA LOGGER')
 print()
+
+ports = serial.tools.list_ports.comports()
+if len(ports) == 0:
+    print('\nNo LightSound port detected. Make sure your device is plugged in with a USB cable\ncapable of data transfer. If you have a PCB LightSound, make sure it is switched on.\n\nExiting program.')
+    sys.exit()
+else:
+    pass
+
 print("Directions:\nPress Enter after you finish typing into each prompt to continue.\nType 'quit' followed by Enter at any time to exit.")
 print("Once the data logging begins, click into this window and use the Ctrl+C command to end logging.")
 print('-----------')
@@ -134,6 +142,19 @@ print('-----------')
 # Read arguments from command line
 print('\nIdentifying serial port for LightSound')
 ports = serial.tools.list_ports.comports()
+# while len(ports) == 0:
+#     print('No LightSound port detected. Make sure your device is plugged in with a USB cable\ncapable of data transfer. If you have a PCB LightSound, make sure it is switched on.')
+#     while (portID=='') or (portID in exit_quit_misspellings) or (portID not in numPortRangeIDs):
+#         if portID=='':
+#             portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
+#         elif portID.lower() in exit_quit_misspellings:
+#             print('\nExiting program.')
+#             time.sleep(1.5)
+#             sys.exit()            
+#         if portID not in numPortRangeIDs:
+#             portID = input("\nPlease enter a number between {} and {}: ".format(numPortRange[0],numPortRange[-1]))
+#         else:
+#             pass
 if len(ports) == 1:
     print('Only one port found at ' + str(ports[0]))
     print('Connecting to port.')
@@ -233,18 +254,20 @@ else:
 
 print('-----------')
 
-liveplotting = input("\nDo you want to show the live-plotting graph? Type 'y' if yes and 'n' if no.\ny or n: ").lower()
-while (liveplotting=='') or (liveplotting in exit_quit_misspellings) or (liveplotting not in ['y','n']):
-    if liveplotting =='':
-        liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
-    elif (liveplotting=='quit') or (liveplotting=='exit'):
-        print('\nExiting program.')
-        time.sleep(1.5)
-        sys.exit()        
-    elif liveplotting not in ['y','n']:
-        liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
-    else:
-        pass
+# liveplotting = input("\nDo you want to show the live-plotting graph? Type 'y' if yes and 'n' if no.\ny or n: ").lower()
+# while (liveplotting=='') or (liveplotting in exit_quit_misspellings) or (liveplotting not in ['y','n']):
+#     if liveplotting =='':
+#         liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
+#     elif (liveplotting=='quit') or (liveplotting=='exit'):
+#         print('\nExiting program.')
+#         time.sleep(1.5)
+#         sys.exit()        
+#     elif liveplotting not in ['y','n']:
+#         liveplotting = input("\nType 'y' for liveplot and 'n' for no liveplot: ").lower()
+#     else:
+#         pass
+
+liveplotting = 'n'
 
 print('\n-----------')
 
