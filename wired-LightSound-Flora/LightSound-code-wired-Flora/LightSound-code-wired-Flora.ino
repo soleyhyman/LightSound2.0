@@ -1,3 +1,7 @@
+/**************************************************************************/
+/**********    CODE FOR WIRED LIGHTSOUND WITH ADAFRUIT FLORA     **********/
+/**************************************************************************/
+
 /* Developed for the LightSound 2.0 */
 /* Code developed by Soley Hyman, with help from Daniel Davis, Rob Hart, and Keith Crouch */
 /* last updated: 2 May 2019 */
