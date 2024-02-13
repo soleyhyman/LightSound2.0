@@ -2,7 +2,7 @@
 Python data logger, plotter, and Arduino code for LightSound 2.0 devices
 
 ### About LightSound
-LightSound is an Arduino-based device that converts light intensity to sound via a light sensor and MIDI board so that blind and visually impaired (BVI) individuals may experience astronomical events like solar eclipses. The original version (LightSound 1.0) was designed and used during the total solar eclipse on August 21, 2017. In preparation for the upcoming North and South American total solar eclipses (2019, 2020, and 2024), LightSound has been redesigned with higher sensitivities and an improved sound library. The project has received funding from IAU100 to build and distribute 20 LightSound 2.0 devices to schools in Chile and Argentina so that BVI students in the path of the 2019 and 2020 solar eclipses may experience the events. 
+LightSound is an Arduino-based device that converts light intensity to sound via a light sensor and MIDI board so that blind and visually impaired (BVI) individuals may experience astronomical events like solar eclipses. The original version (LightSound 1.0) was designed and used during the total solar eclipse on August 21, 2017. In preparation for the upcoming North and South American total solar eclipses (2019, 2020, and 2024), LightSound has been redesigned with higher sensitivities and an improved sound library.
 
 The LightSound 2.0 devices can run on a 9-volt or Li-ion battery (portable mode) or off of computer power (logging mode). When in portable mode, the switch will turn the device on and off. In order to record data, LightSound must be connected to a computer. In this case, the device runs off of the computer power and will remain on as long as it is plugged in.
 
@@ -54,7 +54,7 @@ Python data logger, plotter y código para Arduino de dispositivos LightSound 2.
 
 ### Acerca de LightSound
 
-LightSound es un dispositivo basado en Arduino que convierte la intensidad de la luz en sonido a través de un sensor de luz y una placa MIDI para que las personas ciegas y con discapacidades visuales (BVI) puedan experimentar eventos astronómicos como los eclipses solares. La versión original (LightSound 1.0) se diseñó y usó durante el eclipse total de Sol el 21 de agosto de 2017, en los Estados Unidos. En preparación para los próximos eclipses solares totales en Norteamérica y Sudamérica (2019, 2020 y 2024), LightSound se ha rediseñado con mayor sensibilidad y una biblioteca de sonido mejorada. El proyecto ha recibido fondos de IAU100 para construir y distribuir 20 dispositivos LightSound 2.0 a escuelas en Chile y Argentina para que los estudiantes BVI que se encuentren en el camino de los eclipses solares de 2019 y 2020 puedan experimentar los eventos. 
+LightSound es un dispositivo basado en Arduino que convierte la intensidad de la luz en sonido a través de un sensor de luz y una placa MIDI para que las personas ciegas y con discapacidades visuales (BVI) puedan experimentar eventos astronómicos como los eclipses solares. La versión original (LightSound 1.0) se diseñó y usó durante el eclipse total de Sol el 21 de agosto de 2017, en los Estados Unidos. En preparación para los próximos eclipses solares totales en Norteamérica y Sudamérica (2019, 2020 y 2024), LightSound se ha rediseñado con mayor sensibilidad y una biblioteca de sonido mejorada.
 
 El LightSound trabaja con una batería de 9 voltios o batería de Li-Ion si se lo usa en su modo portátil. El interruptor del dispositivo lo apaga unicamente si se usa esa batería. 
 
