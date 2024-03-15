@@ -17,7 +17,7 @@ Currently, there is no standalone application being developed. You can use the s
 ## Python Setup Information
 **Note:** If you already use Python regularly, we recommend you set up a virtual environment to separate this installation from your other installations. If you use an Anaconda distribution, you can find instructions at [this link](https://www.geeksforgeeks.org/set-up-virtual-environment-for-python-using-anaconda/). If you do not use Anaconda, you can follow the directions [here](https://docs.python.org/3/tutorial/venv.html).
 
-For detailed instructions on how to set up Python, see the [Python-Setup-Instructions-for-LightSound-Interface](Python-Setup-Instructions-for-LightSound-Interface) document.
+For detailed instructions on how to set up Python, see the [Python-Setup-Instructions-for-LightSound-Interface](https://github.com/soleyhyman/LightSound2.0/blob/main/LightSound-Computer-Interface/Python-Setup-Instructions-for-LightSound-Interface.pdf) document.
 
 If you are already familiar with Python, you can follow the below steps:
 1. Install the necessary packages via the following commands:
