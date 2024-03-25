@@ -728,6 +728,12 @@ class LightSoundDataReadPlot:
 
 class MainFrame(wx.Frame):
     def __init__(self, parent):
+        # Get MAC application path
+        if getattr(sys, 'frozen', False):
+            self.application_path = os.path.dirname(sys.executable)
+        else:
+            self.application_path = os.path.dirname(os.path.abspath(__file__))
+
         # Read in or make config file
         self.getConfig()
 
@@ -787,7 +793,7 @@ class MainFrame(wx.Frame):
         self.saveInfoChoice = wx.Choice(self.panel, choices = saveInfoChoices)
         self.saveInfoChoice.SetSelection(0)
         self.saveInfoConf = wx.StaticText(self.panel, label="Save info path/prefix:")
-        self.defaultSaveLoc = str(Path(os.getcwd()) / str("LightSoundData/" + datetime.now().strftime("%Y-%m-%d-%H%M%S")+"-LightSound"))
+        self.defaultSaveLoc = str(Path(self.application_path) / str("LightSoundData/" + datetime.now().strftime("%Y-%m-%d-%H%M%S")+"-LightSound"))
         self.saveInfoResult = wx.TextCtrl(self.panel, -1, style = wx.TE_RICH2, size=(900, -1)) 
         self.saveInfoResult.SetLabel(self.defaultSaveLoc)
         self.saveInfoResult.SetEditable(0)
@@ -917,7 +923,8 @@ class MainFrame(wx.Frame):
         self.panel.SetFocus()
 
     def getConfig(self,mode=0):
-        configName = str(Path(os.getcwd()) / 'LightSoundInterfaceConfig.ini')
+        configName = str(Path(self.application_path) / 'LightSoundInterfaceConfig.ini')
+        print('Config File location:',configName)
         if mode==0:
             if os.path.isfile(configName):
                 config = configparser.ConfigParser()
@@ -1211,7 +1218,7 @@ class MainFrame(wx.Frame):
                 overwriteDanger = False
 
     def OnRefreshDefaultPath(self,event):
-        self.saveInfoResult.SetLabel(str(Path(os.getcwd()) / str("LightSoundData/" + datetime.now().strftime("%Y-%m-%d-%H%M%S")+"-LightSound")))
+        self.saveInfoResult.SetLabel(str(Path(self.application_path) / str("LightSoundData/" + datetime.now().strftime("%Y-%m-%d-%H%M%S")+"-LightSound")))
 
     def checkTZProvided(self):
         if self.tzResult.GetLabel() == "":
