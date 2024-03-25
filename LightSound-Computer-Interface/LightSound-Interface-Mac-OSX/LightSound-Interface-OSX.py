@@ -29,6 +29,7 @@ import wx
 import wx.adv
 from wx.lib.embeddedimage import PyEmbeddedImage
 import wx.html as html
+import wx.html2 as html2
 
 
 def LightSoundLogoIcon():
@@ -735,7 +736,8 @@ class MainFrame(wx.Frame):
         
         # Find ports
         ports = serial.tools.list_ports.comports()
-        self.portNames = [port.device for port in ports if port.vid in [9114,9025]]
+        self.portNames = [port.device for port in ports if port.vid in [9114,9025,4292]]
+        self.portVIDs = [port.vid for port in ports if port.vid in [9114,9025,4292]]
 
         # Set up basics of GUI
         wx.Frame.__init__(self, parent, title="LightSound Computer Interface")
@@ -905,6 +907,10 @@ class MainFrame(wx.Frame):
             if startupDlg.IsCheckBoxChecked():
                 self.showStartDialog = 'False'
                 self.getConfig(mode=1)
+            
+        # Check if PCB LightSound and show dialog for it
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
 
         # Set initial focus to panel
         self.panel.AcceptsFocusFromKeyboard=lambda:True
@@ -1105,7 +1111,8 @@ class MainFrame(wx.Frame):
     
     def OnPortRefresh(self,event):
         ports = serial.tools.list_ports.comports()
-        self.portNames = [port.device for port in ports if port.vid in [9114,9025]]
+        self.portNames = [port.device for port in ports if port.vid in [9114,9025,4292]]
+        self.portVIDs = [port.vid for port in ports if port.vid in [9114,9025,4292]]
         self.portChoice.SetItems(self.portNames)
         if len(self.portNames) == 1:
             self.portChoice.SetSelection(0)
@@ -1124,6 +1131,11 @@ class MainFrame(wx.Frame):
                                       +"   producing sound via headphones or speakers and that your micro-USB\n"
                                       +"   cable is capable of data transfer.")
             noPortDlg.ShowModal()
+        else:
+            pass
+
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
         else:
             pass
 
@@ -1356,6 +1368,11 @@ class MainFrame(wx.Frame):
         else:
             pass
 
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
+        else:
+            pass
+        
         self.logBtnStop.SetBackgroundColour((0, 255, 0, 0))
         serial_port = self.portResult.GetLabel()
         ser = serial.Serial(serial_port, self.baud_rate)
@@ -1527,13 +1544,6 @@ class liveplotFrame(wx.Frame):
             self.sizer.Add(self.canvas, 1, wx.EXPAND)
             self.SetSizer(self.sizer)
             
-        # def draw(self,x,y):
-        #     self.axes.clear()
-        #     self.axes.plot(x,y, 'b-')
-        #     self.axes.set_title(self.initialTime.strftime('Observations on %Y %b %d starting at %H:%M ') + self.timezone)
-        #     self.axes.set_xlabel('Local time (%s)' % self.timezone)
-        #     self.axes.set_ylabel('Intensity (Lux)')
-        #     self.canvas.draw()
         def draw(self,x,y):
             self.axes.clear()
             if type(x) == int:
@@ -2131,7 +2141,7 @@ class HelpPages(wx.Frame):
         #
         helpDict = {'quick':quickStartHTML,'kbrd':kbrdShortsHTML, 'contact':contactHTML}
         return helpDict[keyword]
-    
+        
     def onLinkClicked(self, link):
         print('link clicked')
         url = link.GetLinkInfo().GetHref()

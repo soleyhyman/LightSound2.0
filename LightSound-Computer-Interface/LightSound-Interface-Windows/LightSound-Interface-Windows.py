@@ -736,7 +736,8 @@ class MainFrame(wx.Frame):
         
         # Find ports
         ports = serial.tools.list_ports.comports()
-        self.portNames = [port.device for port in ports if port.vid in [9114,9025]]
+        self.portNames = [port.device for port in ports if port.vid in [9114,9025,4292]]
+        self.portVIDs = [port.vid for port in ports if port.vid in [9114,9025,4292]]
 
         # Set up basics of GUI
         wx.Frame.__init__(self, parent, title="LightSound Computer Interface")
@@ -906,6 +907,10 @@ class MainFrame(wx.Frame):
             if startupDlg.IsCheckBoxChecked():
                 self.showStartDialog = 'False'
                 self.getConfig(mode=1)
+            
+        # Check if PCB LightSound and show dialog for it
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
 
         # Set initial focus to panel
         self.panel.AcceptsFocusFromKeyboard=lambda:True
@@ -1060,6 +1065,13 @@ class MainFrame(wx.Frame):
         noPortDlg.ShowCheckBox("Don't show this again\n(Use spacebar to select with screenreader)")
         return noPortDlg
     
+    def pcbDlg(self):
+        dlg = wx.RichMessageDialog(self, "The interface has detected that you are using a PCB LightSound. Please\n"
+                                             + "make sure that it is switched to the ON position. You can check by\n"
+                                             + "plugging in headphones or speakers and making sure you hear sound.", 
+                                             "PCB LightSound Found", wx.OK|wx.ICON_INFORMATION)
+        dlg.ShowModal()
+    
     def helpIntro(self):
         helpIntroDlg = wx.RichMessageDialog(self, "These are the help pages. If you are using a screenreader, you can\n"
                                                 + "navigate through the different pages by using Shift+Tab, Tab,\n"
@@ -1110,7 +1122,8 @@ class MainFrame(wx.Frame):
     
     def OnPortRefresh(self,event):
         ports = serial.tools.list_ports.comports()
-        self.portNames = [port.device for port in ports if port.vid in [9114,9025]]
+        self.portNames = [port.device for port in ports if port.vid in [9114,9025,4292]]
+        self.portVIDs = [port.vid for port in ports if port.vid in [9114,9025,4292]]
         self.portChoice.SetItems(self.portNames)
         if len(self.portNames) == 1:
             self.portChoice.SetSelection(0)
@@ -1129,6 +1142,11 @@ class MainFrame(wx.Frame):
                                       +"   producing sound via headphones or speakers and that your micro-USB\n"
                                       +"   cable is capable of data transfer.")
             noPortDlg.ShowModal()
+        else:
+            pass
+
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
         else:
             pass
 
@@ -1361,6 +1379,11 @@ class MainFrame(wx.Frame):
         else:
             pass
 
+        if len(self.portNames) != 0 and self.portVIDs[self.portChoice.GetSelection()] == 4292:
+            self.pcbDlg()
+        else:
+            pass
+
         self.logBtnStop.SetBackgroundColour((0, 255, 0, 0))
         serial_port = self.portResult.GetLabel()
         ser = serial.Serial(serial_port, self.baud_rate)
@@ -1531,14 +1554,6 @@ class liveplotFrame(wx.Frame):
             self.sizer = wx.BoxSizer(wx.VERTICAL)
             self.sizer.Add(self.canvas, 1, wx.EXPAND)
             self.SetSizer(self.sizer)
-            
-        # def draw(self,x,y):
-        #     self.axes.clear()
-        #     self.axes.plot(x,y, 'b-')
-        #     self.axes.set_title(self.initialTime.strftime('Observations on %Y %b %d starting at %H:%M ') + self.timezone)
-        #     self.axes.set_xlabel('Local time (%s)' % self.timezone)
-        #     self.axes.set_ylabel('Intensity (Lux)')
-        #     self.canvas.draw()
             
         def draw(self,x,y):
             self.axes.clear()
@@ -2136,12 +2151,23 @@ class HelpPages(wx.Frame):
                             "<li><b>Space:</b> Use your Space key to click the Start/Stop button for liveplotting in Modes 2 and 3.</b></li>" +\
                         "</ul>"
         #
+        trblshootHTML = "<h1>Troubleshooting</h1>" +\
+                        "<p>If</p>" +\
+                        "<ul>" +\
+                            "<li><b>Ctrl+W:</b> Use this to close any popup window. (Cmd+W on Mac)</li>" +\
+                            "<li><b>Ctrl+Q:</b> Use this to exit the program. (Cmd+Q on Mac)</li>" +\
+                            "<li><b>Alt+M:</b> This selects/opens the Menu.</li>" +\
+                            "<li><b>Tab:</b> Use your Tab key to traverse across the application.</li>" +\
+                            "<li><b>Enter:</b> Use your Enter key to click any button.</li>" +\
+                            "<li><b>Space:</b> Use your Space key to click the Start/Stop button for liveplotting in Modes 2 and 3.</b></li>" +\
+                        "</ul>"
+        #
         contactHTML = "<h1>Additional Help</h1>" +\
                         "<p>If you find a bug or typo in this interface, or if you need additional help, please submit an issue via our GitHub (<a href='https://github.com/soleyhyman/LightSound2.0'>https://github.com/soleyhyman/LightSound2.0</a>) or our Google Form (<a href='https://forms.gle/NTnxsw4MNvdQT7tn7'>https://forms.gle/NTnxsw4MNvdQT7tn7</a>).</p>"
         #
         helpDict = {'quick':quickStartHTML,'kbrd':kbrdShortsHTML, 'contact':contactHTML}
         return helpDict[keyword]
-
+        
     def onLinkClicked(self, link):
         print('link clicked')
         url = link.GetLinkInfo().GetHref()
