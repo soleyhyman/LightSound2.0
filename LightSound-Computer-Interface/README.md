@@ -2,6 +2,8 @@
 
 The LightSound Computer Interface is the updated program for connecting your LightSound to your computer and log or liveplot data, as well as to plot pre-existing LightSound data. It features a more intuitive graphical user interface (GUI) to be more accessible for a wide range of users. The capabilities of the program for each operating system are described under [Details for Supported Operating Systems](#details-for-supported-operating-systems) below.
 
+You can view/download a PDF of the LightSound Computer Interface User Guide [here](https://github.com/soleyhyman/LightSound2.0/blob/main/LightSound-Computer-Interface/LightSound-Interface-User-Guide.pdf) or view the HTML webpage version of it [here](https://soleyhyman.github.io/lightsound-interface-user-guide.html).
+
 ## Details for Supported Operating Systems
 ### Windows Users
 The LightSound Computer Interface is available as both a stand-alone program (.exe file) and a Python script. It is screenreader accessible. To download the...
