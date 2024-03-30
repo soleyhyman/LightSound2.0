@@ -1067,7 +1067,14 @@ class MainFrame(wx.Frame):
                                     +"   cable is capable of data transfer.")
         noPortDlg.ShowCheckBox("Don't show this again\n(Use spacebar to select with screenreader)")
         return noPortDlg
-    
+
+    def pcbDlg(self):
+        dlg = wx.RichMessageDialog(self, "The interface has detected that you are using a PCB LightSound. Please\n"
+                                             + "make sure that it is switched to the ON position. You can check by\n"
+                                             + "plugging in headphones or speakers and making sure you hear sound.",
+                                             "PCB LightSound Found", wx.OK|wx.ICON_INFORMATION)
+        dlg.ShowModal()
+
     def helpIntro(self):
         helpIntroDlg = wx.RichMessageDialog(self, "These are the help pages. If you are using a screenreader, you can\n"
                                                 + "navigate through the different pages by using Shift+Tab, Tab,\n"
